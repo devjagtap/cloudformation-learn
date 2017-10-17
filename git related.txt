@@ -1,0 +1,22 @@
+
+devjagtap/nareare123$/stardev2006@gmail.com
+
+github.com and signup..
+
+git clone
+
+git status
+
+git add index.html --- will add this file to github
+
+git commit -m "added index.hmtl" 
+
+git pull --- will download index.html
+
+git add -A
+
+git commit
+
+git push
+
+git pull
