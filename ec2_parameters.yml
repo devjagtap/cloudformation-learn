@@ -1,13 +1,29 @@
 AWSTemplateFormatVersion: 2010-09-09
+Description: "Testing parameters with this template"
+Parameters:
+  InstanceTypeParameter:
+    Type: String
+    Default: t2.micro
+    AllowedValues:
+      - t2.micro
+      - m1.small
+      - m1.large
+    Description: "Enter t2.micro, m1.small, m1.large. Default is t2.micro"
 Resources:
   MyEc2Instance:
     Type: AWS::EC2::Instance
     Properties:
-      ImageId:
-        Fn::FindInMap:
-          - "RegionMap"
-          - Ref: "AWS::Region"
-          - "AMI"
+      ImageId: ami-e689729e
       KeyName: SamOregonEC2
-      InstanceShutdownBehavior: stop
+      InstanceInitiatedShutdownBehavior: stop
       InstanceType: 
+        Ref: InstanceTypeParameter
+      SecurityGroupIds: [sg-20fa3658]
+      SubnetId: subnet-6a130a1c
+      Tags:
+        -
+          Key: "Name"
+          Value: "CFInstance"
+        -
+          Key: "Client"
+          Value: "CTR"

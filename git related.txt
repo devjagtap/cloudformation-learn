@@ -20,3 +20,6 @@ git commit
 git push
 
 git pull
+
+
+aws cloudformation validate-template --template-body file://ec2_parameters.yml
