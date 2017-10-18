@@ -8,10 +8,7 @@ Parameters:
       - "10.0.0.0/24"
       - "10.0.1.0/24"
       - "10.0.2.0/24"
-  VpcAzs:
-    Description: "To get the list of available AZs for the VPC"
-    Type: List<AWS::EC2::AvailabilityZone::Name>
-
+  
 Resources:
   MyVpcUsingCloudFormation:
     Type: AWS::EC2::VPC
@@ -27,8 +24,6 @@ Resources:
   MyPublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
-      AvailabilityZone: 
-        - AZ: !Select [0, !Ref VpcAzs]
       VpcId: !Ref MyVpcUsingCloudFormation
       CidrBlock: !Ref DbSubnetIpBlocks
       Tags:
