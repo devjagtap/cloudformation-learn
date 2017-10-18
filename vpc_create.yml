@@ -1,7 +1,46 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: "Creation of VPC using the Cloud Formation Template"
+Parameters:
+  DbSubnetIpBlocks:
+    Description: "Provides three CIDR blocks"
+    Type: String
+    AllowedValues:
+      - "10.0.0.0/24"
+      - "10.0.1.0/24"
+      - "10.0.2.0/24"
+  VpcAzs:
+    Description: "To get the list of available AZs for the VPC"
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+
 Resources:
   MyVpcUsingCloudFormation:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: "10.0.0.0/16"
+      Tags:
+        -
+          Key: "Name"
+          Value: "MyVpcWithCF"
+        -
+          Key: "Client"
+          Value: "CTR"
+  MyPublicSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone: 
+        - AZ: !Select [0, !Ref VpcAzs]
+      VpcId: !Ref MyVpcUsingCloudFormation
+      CidrBlock: !Ref DbSubnetIpBlocks
+      Tags:
+        -
+          Key: "Name"
+          Value: "MyPublicSubnet"
+        -
+          Key: "Client"
+          Value: "CTR"
+
+Outputs:
+  VpcId:
+    Value: !Ref MyVpcUsingCloudFormation
+  PrimaryCidrBlock:
+    Value: !GetAtt MyVpcUsingCloudFormation.CidrBlock
