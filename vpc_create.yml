@@ -1,15 +1,28 @@
 AWSTemplateFormatVersion: 2010-09-09
+
+
 Description: "Creation of VPC using the Cloud Formation Template"
+
+
 Parameters:
   DbSubnetIpBlocks:
-    Description: "Provides three CIDR blocks"
+    Description: "CIDR blocks for subnet1"
     Type: String
     AllowedValues:
       - "10.0.0.0/24"
       - "10.0.1.0/24"
       - "10.0.2.0/24"
+  DbSubnetIpBlocks1:
+    Description: "CIDR blocks for subnet2 choose both values differently"
+    Type: String
+    AllowedValues:
+      - "10.0.0.0/24"
+      - "10.0.1.0/24"
+      - "10.0.2.0/24"
+
   
 Resources:
+
   MyVpcUsingCloudFormation:
     Type: AWS::EC2::VPC
     Properties:
@@ -21,6 +34,7 @@ Resources:
         -
           Key: "Client"
           Value: "CTR"
+
   MyPublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -33,6 +47,37 @@ Resources:
         -
           Key: "Client"
           Value: "CTR"
+
+  MyPrivateSubnet:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVpcUsingCloudFormation
+      CidrBlock: !Ref DbSubnetIpBlocks1
+      Tags:
+        -
+          Key: "Name"
+          Value: "MyPrivateSubnet"
+        -
+          Key: "Client"
+          Value: "CTR"
+
+  MyInternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        -
+          Key: "Name"
+          Value: "MyInternetGateway"
+        -
+          Key: "Client"
+          Value: "CTR"
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref MyVpcUsingCloudFormation
+      InternetGatewayId: !Ref MyInternetGateway
+
 
 Outputs:
   VpcId:
