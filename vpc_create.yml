@@ -83,13 +83,19 @@ Resources:
           Value: "CTR"
 
   MyRoute:
-    Type: AWS::EC2::RouteTable
+    Type: AWS::EC2::Route
     DependsOn: MyInternetGateway
     Properties:
+      RouteTableId: !Ref MyRouteTable
       DestinationCidrBlock: 0.0.0.0/0
       GatewayId: !Ref MyInternetGateway
-      RouteTableId: !Ref MyRouteTable
 
+  MySubnetRouteTableAssociation:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref MyPublicSubnet
+      RouteTableId: !Ref MyRouteTable
+      
 
 Outputs:
   VpcId:
