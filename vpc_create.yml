@@ -6,19 +6,11 @@ Description: "Creation of VPC using the Cloud Formation Template"
 
 Parameters:
   DbSubnetIpBlocks:
-    Description: "CIDR blocks for subnet1"
+    Description: "CIDR blocks for MyPublicSubnet"
     Type: String
-    AllowedValues:
-      - "10.0.0.0/24"
-      - "10.0.1.0/24"
-      - "10.0.2.0/24"
   DbSubnetIpBlocks1:
-    Description: "CIDR blocks for subnet2 choose both values differently"
+    Description: "CIDR blocks for MyPrivateSubnet"
     Type: String
-    AllowedValues:
-      - "10.0.0.0/24"
-      - "10.0.1.0/24"
-      - "10.0.2.0/24"
 
   
 Resources:
@@ -78,9 +70,36 @@ Resources:
       VpcId: !Ref MyVpcUsingCloudFormation
       InternetGatewayId: !Ref MyInternetGateway
 
+  MyRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref MyVpcUsingCloudFormation
+      Tags:
+        -
+          Key: "Name"
+          Value: "MyRouteTable"
+        -
+          Key: "Client"
+          Value: "CTR"
+
+  MyRoute:
+    Type: AWS::EC2::RouteTable
+    DependsOn: MyInternetGateway
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref MyInternetGateway
+      RouteTableId: !Ref MyRouteTable
+
 
 Outputs:
   VpcId:
     Value: !Ref MyVpcUsingCloudFormation
   PrimaryCidrBlock:
     Value: !GetAtt MyVpcUsingCloudFormation.CidrBlock
+  MyPublicSubnetId: 
+    Value: !Ref MyPublicSubnet
+  MyPrivateSubnetId:
+    Value: !Ref MyPrivateSubnet
+  MyInternetGateway:
+    Value: !Ref MyInternetGateway
+    
