@@ -21,6 +21,12 @@ git push
 
 git pull
 
+git init
+git add
+git commit -m
+git remote add origin https://github.com/devjagtap/cheftest.git
+git config credential.helper store
+git push
 
 aws cloudformation validate-template --template-body file://ec2_parameters.yml
 aws s3 cp ec2_parameters s3://ctrcompanybucket/njagtap/

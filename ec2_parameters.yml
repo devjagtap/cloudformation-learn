@@ -14,12 +14,12 @@ Resources:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-e689729e
-      KeyName: SamOregonEC2
+      KeyName: ctroraggkeypair
       InstanceInitiatedShutdownBehavior: stop
       InstanceType: 
         Ref: InstanceTypeParameter
-      SecurityGroupIds: [sg-20fa3658]
-      SubnetId: subnet-6a130a1c
+      SecurityGroupIds: [sg-88522be0]
+      SubnetId: subnet-3a22c652
       Tags:
         -
           Key: "Name"
